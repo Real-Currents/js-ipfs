@@ -108,6 +108,11 @@ export interface API<OptionExtension = {}> {
 
 export interface GetOptions extends AbortOptions, PreloadOptions {
   /**
+   * The codec that the node will be encoded in (defaults to 'dag-json')
+   */
+  inputCodec?: string
+
+  /**
    * An optional path within the DAG to resolve
    */
   path?: string
@@ -132,9 +137,14 @@ export interface GetResult {
 
 export interface PutOptions extends AbortOptions, PreloadOptions {
   /**
-   * The codec to use to create the CID (defaults to 'dag-cbor')
+   * The codec that the input object is encoded in (defaults to 'dag-json')
    */
-  format?: string
+  inputCodec?: string
+
+  /**
+   * The codec that the stored object will be encoded with (defaults to 'dag-cbor')
+   */
+  storeCodec?: string
 
   /**
    * Multihash hashing algorithm to use (defaults to 'sha2-256')
