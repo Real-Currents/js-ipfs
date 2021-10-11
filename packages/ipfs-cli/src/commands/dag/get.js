@@ -8,6 +8,7 @@ import {
 } from '../../utils.js'
 import * as dagPB from '@ipld/dag-pb'
 import * as dagCBOR from '@ipld/dag-cbor'
+import * as dagJSON from '@ipld/dag-json'
 import * as raw from 'multiformats/codecs/raw'
 
 export default {
