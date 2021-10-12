@@ -108,7 +108,7 @@ export interface API<OptionExtension = {}> {
 
 export interface GetOptions extends AbortOptions, PreloadOptions {
   /**
-   * The codec that the node will be encoded in (defaults to 'dag-json')
+   * The codec that the node will be encoded with (defaults to 'dag-json')
    */
   inputCodec?: string
 
@@ -137,7 +137,7 @@ export interface GetResult {
 
 export interface PutOptions extends AbortOptions, PreloadOptions {
   /**
-   * The codec that the input object is encoded in (defaults to 'dag-json')
+   * The codec that the input object is encoded with (defaults to 'dag-json')
    */
   inputCodec?: string
 
