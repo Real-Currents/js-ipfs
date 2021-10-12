@@ -3,20 +3,20 @@ import * as dagPB from '@ipld/dag-pb'
 import * as dagJSON from '@ipld/dag-json'
 import * as raw from 'multiformats/codecs/raw'
 import concat from 'it-concat'
-import { CID } from 'multiformats/cid'
 import parseDuration from 'parse-duration'
 
 /**
- * @typedef {import('multiformats/codecs/interface').BlockCodec} BlockCodec
+ * @template T
+ * @typedef {import('multiformats/codecs/interface').BlockCodec<number, T>} BlockCodec
  */
 
 /**
- * @type {Record<string, BlockCodec>}
+ * @type {Record<string, BlockCodec<any>>}
  */
-const codecs = [dagCBOR, dagJSON, dagPB, raw].reduce((m, codec) => {
+const codecs = [dagCBOR, dagJSON, dagPB, raw].reduce((/** @type {Record<string, BlockCodec<any>>} */ m, codec) => {
   m[codec.name] = codec
   return m
-}, /** @type {Record<string, BlockCodec>} */ {})
+}, /** @type {Record<string, BlockCodec<any>>} */ {})
 
 export default {
   command: 'put [data]',
