@@ -127,9 +127,6 @@ export const putResource = {
           throw Boom.badRequest("File argument 'object data' is required")
         }
 
-        const inputCodec = request.query.inputCodec
-        const storeCodec = request.query.storeCodec
-
         if (!request.headers['content-type']) {
           throw Boom.badRequest("File argument 'object data' is required")
         }
@@ -148,21 +145,11 @@ export const putResource = {
           throw Boom.badRequest("File argument 'object data' is required")
         }
 
-        const cidVersion = format === 'dag-pb' && request.query.hashAlg === 'sha2-256' ? request.query.version : 1
-
-        const cid = await request.server.app.ipfs.block.put(data, {
-          version: cidVersion,
-          storeCodec,
-          inputCodec,
-          mhtype: request.query.hash
-        })
-
-        const { value } = await request.server.app.ipfs.dag.get(cid)
+        const cidVersion = request.query.storeCodec === 'dag-pb' && request.query.hashAlg === 'sha2-256' ? request.query.version : 1
 
         return {
-          node: value,
-          format,
-          hashAlg: request.query.hash
+          data,
+          cidVersion
         }
       }
     }],
@@ -175,7 +162,7 @@ export const putResource = {
         storeCodec: Joi.string().default('dag-cbor'),
         inputCodec: Joi.string().default('dag-json'),
         pin: Joi.boolean().default(false),
-        hash: Joi.string().default('sha2-256'),
+        hashAlg: Joi.string().default('sha2-256'),
         cidBase: Joi.string().default('base32'),
         version: Joi.number().integer().valid(0, 1).default(1),
         timeout: Joi.timeout()
@@ -203,12 +190,14 @@ export const putResource = {
       },
       pre: {
         args: {
-          node,
-          format,
-          hashAlg
+          data,
+          cidVersion,
         }
       },
       query: {
+        inputCodec,
+        storeCodec,
+        hashAlg,
         pin,
         cidBase,
         timeout,
@@ -216,12 +205,12 @@ export const putResource = {
       }
     } = request
 
-    const cidVersion = format === 'dag-pb' && hashAlg === 'sha2-256' ? version : 1
     let cid
 
     try {
-      cid = await ipfs.dag.put(node, {
-        format,
+      cid = await ipfs.dag.put(data, {
+        inputCodec,
+        storeCodec,
         hashAlg,
         version: cidVersion,
         pin,
