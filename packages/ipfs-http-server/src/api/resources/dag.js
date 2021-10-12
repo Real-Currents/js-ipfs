@@ -145,12 +145,7 @@ export const putResource = {
           throw Boom.badRequest("File argument 'object data' is required")
         }
 
-        const cidVersion = request.query.storeCodec === 'dag-pb' && request.query.hashAlg === 'sha2-256' ? request.query.version : 1
-
-        return {
-          data,
-          cidVersion
-        }
+        return { data }
       }
     }],
     validate: {
@@ -190,8 +185,7 @@ export const putResource = {
       },
       pre: {
         args: {
-          data,
-          cidVersion,
+          data
         }
       },
       query: {
@@ -200,10 +194,12 @@ export const putResource = {
         hashAlg,
         pin,
         cidBase,
-        timeout,
-        version
+        version,
+        timeout
       }
     } = request
+
+    const cidVersion = storeCodec === 'dag-pb' && hashAlg === 'sha2-256' ? version : 1
 
     let cid
 
