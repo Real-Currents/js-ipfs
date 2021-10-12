@@ -17,6 +17,7 @@ export function createPut ({ repo, codecs, hashers, preload }) {
 
     try {
       const storeCodec = await codecs.getCodec(options.storeCodec || 'dag-cbor')
+      // TODO: doesn't getCodec throw? verify and possibly remove this
       if (!storeCodec) {
         throw new Error(`Unknown storeCodec ${options.storeCodec}, please configure additional BlockCodecs for this IPFS instance`)
       }
