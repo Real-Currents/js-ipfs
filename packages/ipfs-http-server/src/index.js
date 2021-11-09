@@ -136,7 +136,7 @@ export class HttpApi {
       additionalExposedHeaders: ['X-Stream-Output', 'X-Chunked-Output', 'X-Content-Length']
     }
 
-    const enableCors = Boolean(cors.origin?.length)
+    const enableCors = Boolean(cors.origin.length)
 
     const server = Hapi.server({
       host,
