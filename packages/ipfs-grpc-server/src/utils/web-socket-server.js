@@ -109,7 +109,7 @@ class Messages extends EventEmitter {
  */
 export async function webSocketServer (ipfs, options = {}) {
   const config = await ipfs.config.getAll()
-  const grpcAddr = config.Addresses?.RPC
+  const grpcAddr = config.Addresses.RPC
 
   if (!grpcAddr) {
     throw new Error('No gRPC address configured, please set an Addresses.RPC key in your IPFS config')
